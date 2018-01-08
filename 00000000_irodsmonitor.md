@@ -80,9 +80,11 @@ irodsctl should also be aware and capable of starting/stopping irodsMonitor.
 This binary would provide read-only JSON responses to RESTful queries.
 
 
-At first, a single endpoint:
+At first, a couple endpoints:
 
-/ => general status/stats
+/heartbeat => is the server awake
+
+/status => general status/stats
 
 Potentially including all of the following:
 
@@ -92,6 +94,7 @@ Potentially including all of the following:
 - storage resource health (up/down/freespace)
 - ping times to other iRODS servers
 - bandwidth stats to other iRODS servers
+- existing metalnx service stats
 
 Not all of these items would need to be included in a first release.
 
