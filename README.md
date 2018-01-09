@@ -26,8 +26,9 @@ conditions apply:
 
 # RFC process
 
-1. Copy `00000000_template.md` to a new file and fill in the details. Commit
-   this version in your own fork of the repository or a branch.
+1. Copy `0000_template.md` to a new file, rename it (increment from largest current RFC),
+   and fill in the details. Commit this version in your own fork of the
+   repository or a branch.
 
 2. Submit a pull request (PR) to add your new file to the main repository.
    Each RFC should get its own pull request.
@@ -99,7 +100,6 @@ conditions apply:
 6. If there is still consensus to proceed after the FCP:
 
    - change the `Status` field of the document to `in-progress`;
-   - rename the RFC document to prefix it with the current date (`YYYYMMDD_`);
    - update the `RFC PR` field;
    - and merge the PR.
 
