@@ -2,7 +2,7 @@
 
 # About this repository
 
-This repository contains RFCs (design documents) that describe
+This repository contains RFCs (requests for comments, or design documents) that describe
 proposed major changes to iRODS or new feature development spanning
 multiple repositories / plugins.
 
