@@ -95,6 +95,7 @@ Potentially including all of the following:
 - ping times to other iRODS servers
 - bandwidth stats to other iRODS servers
 - existing metalnx service stats
+- delayed queue statistics
 
 Not all of these items would need to be included in a first release.
 
