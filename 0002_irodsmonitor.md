@@ -17,7 +17,6 @@ The iRODS community has recently shared multiple examples of how they are monito
 
 An irodsMonitor process would support heartbeat monitoring, freespace information, resource/storage health, network connection information and other basic information that would allow a dashboard to relate to the sysadmins about the health of the system.  Additionally, irodsServers that hold no storage (e.g. catalog providers behind a load balancer) would now appear in reports about the Zone (they are currently hidden from izonereport output). The expected outcome for a particular REST query would be a JSON response with all pertinent information encoded in a standard way - formalized by a schema which would be published by the iRODS Consortium.
 
-
 ## Detailed design
 
 A new irodsMonitor binary to be built/packaged/tested/supported.  It will not (?) affect any existing server processes or implementation.
@@ -55,6 +54,10 @@ Not all of these items would need to be included in a first release.
 
 This irodsMonitor could be written in any language - but probably it should be C++ or Python.
 
+### Resources
+
+A Gossip Protocol simulation is available here: https://flopezluis.github.io/gossip-simulator/
+
 
 ## Drawbacks
 
@@ -90,3 +93,9 @@ The impact of not providing this irodsMonitor is that sysadmins will continue to
 - What are the endpoints?
 - What are the responses?
 - Where are these pieces of information stored?  In the catalog?  What are the dependencies?
+
+## Possible Approaches
+
+- Use [Serf](https://www.serf.io/docs/internals/gossip.html)
+- Use [Consul (uses Serf)](https://www.consul.io/intro/index.html)
+- Custom binary - would need C++ library?
