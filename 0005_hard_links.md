@@ -25,9 +25,9 @@ A hard-link has the following characteristics:
 
 The `UUID` defines the link between all data objects associated with a particular replica.
 
-## Filesystem operations that affect Hard-Links
-The following sections describe, on a high-level, the basic filesystem operations that affect hard-links. Each section contains
-a diagram that presents the result of each operation.
+## Operations that affect Hard-Links
+The following sections describe, on a high-level, the operations that affect hard-links. Each section contains a diagram that
+presents the result of each operation.
 
 The diagrams use the following legend:
 <p align="center">
@@ -50,10 +50,10 @@ $ imeta add -d <data_object> irods::hard_link <UUID>
 </p>
 
 ### Move/Rename (e.g. mv)
-Moving a hard-link requires updating the hard-link AVU on all the affiliated data objects. It also means potentially
+Moving a hard-link requires updating the hard-link and system AVUs on all affiliated data objects. It also means potentially
 updating other user-defined metadata for each data object, which could be expensive. 
 
-Below, I present pseudo code that demonstrates the steps needed to maintain hard-links following a move operation:
+The following pseudo code demonstrates the steps needed to maintain hard-links following a move operation:
 ```python
 move(src_data_object, dst_data_object)
 {
@@ -74,7 +74,7 @@ move(src_data_object, dst_data_object)
 See the section below on [User-Defined Metadata](#user-defined-metadata).
 
 ### Remove (e.g. rm)
-Removing a hard-link is simply a matter of unregistering the logical path. For example:
+Removing a hard-link is accomplished by unregistering the logical path. For example:
 ```bash
 $ irm -U -n <replica_number> <logical_path/of/hard_linked/data_object>
 ```
@@ -84,17 +84,29 @@ $ irm -U -n <replica_number> <logical_path/of/hard_linked/data_object>
 
 ## Rule Engine Plugin Skeleton
 ```python
+# Verifies permissions on the target data object. This is necessary for situations
+# where the permissions on the target data object have changed.
+def pep_api_data_obj_open_pre(rule_args, callback, rei):
+    pass
+
+# See "pep_api_data_obj_open_pre".
+def pep_api_data_obj_open_and_stat_pre(rule_args, callback, rei):
+    pass
+
+# See "pep_api_data_obj_open_pre".
+def pep_api_data_obj_create_pre(rule_args, callback, rei):
+    pass
+
 # Verifies that the relationship between the source and destination data objects and
 # decides whether to allow the operation to continue or not.
 def pep_api_data_obj_rename_pre(rule_args, callback, rei):
     pass
 
-# Adjusts the hard-links and if necessary, other metadata.
+# Adjusts the hard-links and if necessary, other system metadata.
 def pep_api_data_obj_rename_post(rule_args, callback, rei):
     pass
 
-# Capture the hard-link state. This is necessary for situations where
-# a data object has multiple hard-links.
+# Capture the hard-link state for processing in the corresponding post PEP.
 def pep_api_data_obj_unlink_pre(rule_args, callback, rei):
     pass
 
@@ -103,7 +115,7 @@ def pep_api_data_obj_unlink_pre(rule_args, callback, rei):
 def pep_api_data_obj_unlink_post(rule_args, callback, rei):
     pass
 
-# If metadata changes on any hard-link, apply those same metadata operations to
+# If system metadata changes on any hard-link, apply those same metadata operations to
 # all other data objects with a matching UUID.
 #
 # Should this operation be atomic?
@@ -114,7 +126,7 @@ def pep_api_mod_data_obj_meta_post(rule_args, callback, rei):
 ## User-Defined Metadata
 Should all hard-linked logical paths in iRODS get identical user-defined AVUs?
 
-The case against this is that NFSRODS does not have any concept of iRODS AVUs.
+The case against this is that some iRODS clients do not have any concept of iRODS AVUs.
 
 The case for this is that extended attributes in Linux do appear on hard-linked files.
 ```bash
