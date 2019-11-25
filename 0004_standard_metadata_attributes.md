@@ -83,4 +83,6 @@ to serve as a starting point for the design.
 - filesystem::\<property\>
 - fsys::\<property\>
 - fs::\<property\>
+- posix::sys::stat::\<property\> while retaining the same attribute tail names from structure: https://pubs.opengroup.org/onlinepubs/009695399/basedefs/sys/stat.h.html
+
 
