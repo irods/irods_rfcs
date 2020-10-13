@@ -1,5 +1,5 @@
 - Feature Name: iRODS Hard-Links
-- Status: draft
+- Status: Completed
 - Start Date: 2019-11-04
 - Authors: Kory Draughn
 - RFC PR: N/A
