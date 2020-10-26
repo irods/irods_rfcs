@@ -32,7 +32,7 @@ Aside from that, the most important things to know in regards to these changes a
 - Session variables used in rules prior to upgrade will continue to work, but rely on the REI file. This allows
   administrators to migrate from session variables and Static PEPs to Dynamic PEPs gracefully and at a later time.
 - REI files will be migrated into the catalog following execution if and only if the rule does not contain session variables.
-- Migrated REI file names will have a suffix of ".migrated_to_catalog" (e.g. rei.<user>.<unique_id>.migrated_to_catalog).
+- Migrated REI file names will have a suffix of **.migrated_to_catalog** (e.g. `rei.<user>.<unique_id>.migrated_to_catalog`).
 
 We chose to not add support for session variables due to the following reasons:
 - It helps push the community towards Dynamic PEPs.
