@@ -1,5 +1,5 @@
 - Feature Name: Static PEPs and Delay Rules
-- Status: in-progress
+- Status: In-Progress
 - Start Date: 2020-10-13
 - Authors: Kory Draughn
 - RFC PR: [#5175](https://github.com/irods/irods/pull/5175)
@@ -27,28 +27,25 @@ while also (hopefully) improving performance.
 ## Are there any downsides to this change?
 This should not be viewed as a downside. These changes are a step to future proofing your deployment.
 
-Aside from that, the most important thing to know in regards to these changes is that Static PEPs can no longer be used
-to schedule delay-based rules. For users and administrators who are using Static PEPs to schedule delay-based rules,
-you will need to update your policy to use Dynamic PEPs instead.
+Aside from that, the most important things to know in regards to these changes are:
+- Session variables are not allowed in new delay rules. 
+- Session variables used in rules prior to upgrade will continue to work, but rely on the REI file. This allows
+  administrators to migrate from session variables and Static PEPs to Dynamic PEPs gracefully and at a later time.
+- REI files will be migrated into the catalog following execution if and only if the rule does not contain session variables.
+- Migrated REI file names will have a suffix of ".migrated_to_catalog" (e.g. rei.<user>.<unique_id>.migrated_to_catalog).
 
-We chose to not add support for Static PEPs due to the following reasons:
+We chose to not add support for session variables due to the following reasons:
 - It helps push the community towards Dynamic PEPs.
-- It enables a path to deprecating and removing Static PEPs.
-- Static PEPs are planned for removal in iRODS v4.3.0.
-- Attempting to support Static PEPs meant we'd have to serialize ALL session variables.
+- It enables a path to deprecating and removing session variables and Static PEPs.
+- Session variables and Static PEPs are planned for removal in iRODS v4.3.0.
+- Supporting session variables meant we'd have to serialize ALL session variables.
 
 Given those reasons, it did not make sense to add support for them. Especially when the plan is to focus on getting
 iRODS v4.3.0 released before UGM 2021.
 
 ## Will I have to do anything special to upgrade my deployment?
-Hopefully not, iRODS v4.2.9 comes with a migration application that will automatically convert and import all existing REI
-files from the local hard drive into the catalog during server startup. The tool will provide information about the
-number of files processed as well as a log file for what happened during processing. The tool is also safe to re-run
-as many times as you like.
-
-However, the tool was implemented with the assumption that the contextual information was produced by a dynamic PEP.
-Another way to handle an upgrade is to drain all delay rules from the catalog. This will effectively skip the need of
-the migration tool and allow a clean upgrade.
+No. The RE Delay Server will migrate REI files into the catalog following rule execution. This keeps the downtime close
+to zero and removes concerns around rules breaking following the upgrade.
 
 ## The Community
 With all of that said, we are interested in hearing what the community thinks of these changes.
